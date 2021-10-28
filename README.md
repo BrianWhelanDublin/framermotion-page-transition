@@ -1,3 +1,13 @@
+# Framer Motion Page Transition Walkthrough
+
+## Youtube walkthrough video.
+
+[Page Transitions with React Router and Framer Motion by Wrong Akram](https://www.youtube.com/watch?v=3QrkCmsfewM&t=318s)
+
+<img src="src/images/Screenshot-page-transitions.png" alt="screenshot of project">
+
+[Finished Project](https://framermotion-page-transition.vercel.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

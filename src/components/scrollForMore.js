@@ -1,12 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-
 const transition = {
   duration: 1.4,
   ease: [.6, .01, -.05, .9]
 }
-
 
 const ScrollForMore = () => {
   return (
