@@ -1,49 +1,132 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { motion, useTransform, useViewportScroll } from "framer-motion";
 //Components
 import ScrollForMore from "../components/scrollForMore";
-//Ease
 
-const Model = () => {
+const transition = {
+  duration: 1.4,
+  ease: [.6, .01, -.05, .9]
+}
+
+const firstNameVaiants = {
+  end: {
+    transition: {
+      delayChildren: .6,
+      staggerChildren: .1,
+      staggerDirection: -1
+    }
+  }
+}
+
+const lastNameVaiants = {
+  end: {
+    transition: {
+      delayChildren: .6,
+      staggerChildren: .1,
+      staggerDirection: 1
+    }
+  }
+}
+
+const letterVarients = {
+  start: {
+    y: 400
+  },
+  end: {
+    y: 0,
+    transition: {
+      duration: 1, ...transition
+    }
+  }
+}
+
+
+const Model = ({ imageDetails }) => {
+
+  const { scrollYProgress } = useViewportScroll();
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
+
+  const [canScroll, setCanScroll] = useState(false);
+
+  useEffect(() => {
+    if (!canScroll) {
+      document.querySelector("body").classList.add("no-scroll")
+    } else {
+      document.querySelector("body").classList.remove("no-scroll")
+    }
+  }, [canScroll])
+
+
   return (
-    <div className='single'>
+    <motion.div className='single'
+      onAnimationComplete={() => setCanScroll(true)}
+      initial="start"
+      animate="end"
+      exit="exit"
+    >
       <div className='container fluid'>
         <div className='row center top-row'>
           <div className='top'>
-            <div className='details'>
+            <motion.div className='details'
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { delay: 1.2, ...transition }
+              }}
+            >
               <div className='location'>
                 <span>28.538336</span>
                 <span>-81.379234</span>
               </div>
               <div className='mua'>MUA: @mylifeascrystall</div>
-            </div>
-            <div className='model'>
-              <span className='first'>
-                <span>Y</span>
-                <span>a</span>
-                <span>s</span>
-                <span>m</span>
-                <span>e</span>
-                <span>e</span>
-                <span>n</span>
-              </span>
-              <span className='last'>
-                <span>T</span>
-                <span>a</span>
-                <span>r</span>
-                <span>i</span>
-                <span>q</span>
-              </span>
-            </div>
+            </motion.div>
+            <motion.div className='model'
+
+            >
+              <motion.span className='first'
+                variants={firstNameVaiants}
+              >
+                <motion.span variants={letterVarients}>Y</motion.span>
+                <motion.span variants={letterVarients}>a</motion.span>
+                <motion.span variants={letterVarients}>s</motion.span>
+                <motion.span variants={letterVarients}>m</motion.span>
+                <motion.span variants={letterVarients}>e</motion.span>
+                <motion.span variants={letterVarients}>e</motion.span>
+                <motion.span variants={letterVarients}>n</motion.span>
+              </motion.span>
+              <motion.span className='last'
+                variants={lastNameVaiants}
+              >
+                <motion.span variants={letterVarients} >T</motion.span>
+                <motion.span variants={letterVarients} >a</motion.span>
+                <motion.span variants={letterVarients} >r</motion.span>
+                <motion.span variants={letterVarients} >i</motion.span>
+                <motion.span variants={letterVarients} >q</motion.span>
+              </motion.span>
+            </motion.div>
           </div>
         </div>
         <div className='row bottom-row'>
           <div className='bottom'>
             <div className='image-container-single'>
-              <div className='thumbnail-single'>
+              <motion.div className='thumbnail-single'
+                initial={{ width: imageDetails.width, height: imageDetails.height, y: " -50%" }}
+                animate={{ y: 0, width: "100%", height: window.innerWidth > 1440 ? 800 : 400, transition: { delay: .2, ...transition } }}
+
+              >
                 <div className='frame-single'>
-                  <img src={require("../images/yasmeen.webp")} alt='an image' />
+                  <motion.img src={require("../images/yasmeen.webp")} alt=''
+                    style={{ scale: scale }}
+                    initial={{ scale: 1 }}
+                    animate={{
+                      y: window.innerWidth > 1400 ? -1200 : -600,
+                      transition: { delay: .2, ...transition }
+                    }}
+                  />
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
           <ScrollForMore />
@@ -72,7 +155,7 @@ const Model = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
